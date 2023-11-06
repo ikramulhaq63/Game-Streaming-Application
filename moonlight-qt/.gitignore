@@ -1,0 +1,8 @@
+*pro.user
+
+
+**/.vs/
+config.tests/*/.qmake.stash
+config.tests/*/Makefile
+wix/
+.vscode/
