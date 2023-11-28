@@ -1,8 +1,0 @@
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-Content-Length: 23
-Date: Mon, 06 Nov 2023 06:34:04 GMT
-Connection: keep-alive
-Keep-Alive: timeout=5
-
-{"allocationId": "123"}

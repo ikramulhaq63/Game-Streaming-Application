@@ -124,7 +124,7 @@ Flickable {
                 Label {
                     width: parent.width
                     id: resFPSdesc
-                    text: qsTr("When you click the 'Send Request' button, it will send specific MEC BWM Request to TerraFlowSDN (TFS).")
+                    text: qsTr("Click the 'POST/PATCH Request' button to Send a Bandwidth request to TeraFlowSDN.")
                     font.pointSize: 9
                     wrapMode: Text.Wrap
                 }

@@ -307,7 +307,7 @@ int main(int argc, char *argv[])
     // it is critical that these be called before Path::initialize().
     QCoreApplication::setOrganizationName("Moonlight Game Streaming Project");
     QCoreApplication::setOrganizationDomain("moonlight-stream.com");
-    QCoreApplication::setApplicationName("xFlow Research Game Streaming Application");
+    QCoreApplication::setApplicationName("MEC PoC - Network Resource Allocation for Gaming Using MEC BandWidth Management Service and TeraFlowSDN");
 
     if (QFile(QDir::currentPath() + "/portable.dat").exists())
     {

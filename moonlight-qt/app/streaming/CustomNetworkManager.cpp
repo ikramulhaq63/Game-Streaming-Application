@@ -10,6 +10,7 @@
 #include <openssl/bio.h>
 #include <fstream>
 #include <ctime>
+#include <windows.h>
 
 CustomNetworkManager::CustomNetworkManager(QObject* parent) : QObject(parent) {}
 
@@ -36,24 +37,30 @@ void CustomNetworkManager::sendPostRequest720p()
     };
 
     const BwInfo bwInfo = {
-        "1234567890",
+        "1234567890", //appInsId
         0,          // Request type 0
-        "10mbs",  // Fixed allocation
-        "00"        // Allocation direction
+        "5500000",  // Fixed allocation
+        "10"        // Allocation direction
     };
 
     const char* hostname = "127.0.0.1:3001";
     std::string apiPath = "/bwm/v1/bw_allocations";
+    if (!CreateDirectoryW(L"log", NULL) && ERROR_ALREADY_EXISTS != GetLastError())
+    {
+        std::cerr << "Failed to create log folder." << std::endl;
+    }
     // Generate a filename based on the current datetime
+    std::string logFolderPath = "log\\";
     auto now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
     struct tm* parts = std::localtime(&now_c);
 
     char filename[100];
     std::strftime(filename, sizeof(filename), "%Y-%m-%d_%H-%M-%S PostRequest720p.log", parts);
-
+    // Concatenate the log folder path with the filename
+    std::string logFilePath = logFolderPath + filename;
     // Create and open a log file
-    std::ofstream logFile(filename);
+    std::ofstream logFile(logFilePath);
 
     if (!logFile.is_open())
     {
@@ -141,15 +148,20 @@ void CustomNetworkManager::sendPostRequest1080p()
     };
 
     const BwInfo bwInfo = {
-        "1234567890",
+        "1234567890", //appInsId
         0,          // Request type 0
-        "20mbs",  // Fixed allocation
-        "00"        // Allocation direction
+        "7000000",  // Fixed allocation
+        "10"        // Allocation direction
     };
 
     const char* hostname = "127.0.0.1:3001";
     std::string apiPath = "/bwm/v1/bw_allocations";
+    if (!CreateDirectoryW(L"log", NULL) && ERROR_ALREADY_EXISTS != GetLastError())
+    {
+        std::cerr << "Failed to create log folder." << std::endl;
+    }
     // Generate a filename based on the current datetime
+    std::string logFolderPath = "log\\";
     auto now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
     struct tm* parts = std::localtime(&now_c);
@@ -157,8 +169,9 @@ void CustomNetworkManager::sendPostRequest1080p()
     char filename[100];
     std::strftime(filename, sizeof(filename), "%Y-%m-%d_%H-%M-%S PostRequest1080p.log", parts);
 
+    std::string logFilePath = logFolderPath + filename;
     // Create and open a log file
-    std::ofstream logFile(filename);
+    std::ofstream logFile(logFilePath);
 
     if (!logFile.is_open())
     {
@@ -246,15 +259,20 @@ void CustomNetworkManager::sendPostRequest1440p()
     };
 
     const BwInfo bwInfo = {
-        "1234567890",
+        "1234567890", //appInsId
         0,          // Request type 0
-        "30mbs",  // Fixed allocation
-        "00"        // Allocation direction
+        "11000000",  // Fixed allocation
+        "10"        // Allocation direction
     };
 
     const char* hostname = "127.0.0.1:3001";
     std::string apiPath = "/bwm/v1/bw_allocations";
+    if (!CreateDirectoryW(L"log", NULL) && ERROR_ALREADY_EXISTS != GetLastError())
+    {
+        std::cerr << "Failed to create log folder." << std::endl;
+    }
     // Generate a filename based on the current datetime
+    std::string logFolderPath = "log\\";
     auto now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
     struct tm* parts = std::localtime(&now_c);
@@ -262,8 +280,9 @@ void CustomNetworkManager::sendPostRequest1440p()
     char filename[100];
     std::strftime(filename, sizeof(filename), "%Y-%m-%d_%H-%M-%S PostRequest1440p.log", parts);
 
+    std::string logFilePath = logFolderPath + filename;
     // Create and open a log file
-    std::ofstream logFile(filename);
+    std::ofstream logFile(logFilePath);
 
     if (!logFile.is_open())
     {
@@ -343,25 +362,30 @@ void CustomNetworkManager::sendPostRequest1440p()
 void CustomNetworkManager::sendPatchRequest(const QString& id, const QString& BW)
 {
     // Define the BwInfo structure
-    struct BwInfo {
+    struct BwInfoDeltas {
+        std::string allocationId;
         std::string appInsId;
         int requestType;
         std::string fixedAllocation;
         std::string allocationDirection;
     };
 
-    const BwInfo bwInfo = {
-        "1234567890",
+    const BwInfoDeltas bwInfodeltas = {
+        id.toStdString(), // allocationId
+        "1234567890", //appInsId
         0,          // Request type 0
         BW.toStdString(),  // Fixed allocation
-        "00"        // Allocation direction
+        "10"        // Allocation direction
     };
     const char* hostname1 = "127.0.0.1:3001";
     std::string apiPath1 = "/bwm/v1/bw_allocations/";
-    //const char* allocationId = "12345";
-    //apiPath1 += allocationId;
     apiPath1 += id.toStdString();
+    if (!CreateDirectoryW(L"log", NULL) && ERROR_ALREADY_EXISTS != GetLastError())
+    {
+        std::cerr << "Failed to create log folder." << std::endl;
+    }
     // Generate a filename based on the current datetime
+    std::string logFolderPath = "log\\";
     auto now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
     struct tm* parts = std::localtime(&now_c);
@@ -369,8 +393,9 @@ void CustomNetworkManager::sendPatchRequest(const QString& id, const QString& BW
     char filename[100];
     std::strftime(filename, sizeof(filename), "%Y-%m-%d_%H-%M-%S PatchRequest.log", parts);
 
+    std::string logFilePath = logFolderPath + filename;
     // Create and open a log file
-    std::ofstream logFile(filename);
+    std::ofstream logFile(logFilePath);
 
     if (!logFile.is_open())
     {
@@ -411,10 +436,11 @@ void CustomNetworkManager::sendPatchRequest(const QString& id, const QString& BW
 
     // Construct the JSON payload manually for PATCH
     std::string jsonPayload = "{";
-    jsonPayload += "\"appInsId\":\"" + bwInfo.appInsId + "\",";
-    jsonPayload += "\"requestType\":" + std::to_string(bwInfo.requestType) + ",";
-    jsonPayload += "\"fixedAllocation\":\"" + bwInfo.fixedAllocation + "\","; // Use 200Mbps for PATCH
-    jsonPayload += "\"allocationDirection\":\"" + bwInfo.allocationDirection + "\"";
+    jsonPayload += "\"allocationId\":\"" + bwInfodeltas.allocationId + "\",";
+    jsonPayload += "\"appInsId\":\"" + bwInfodeltas.appInsId + "\",";
+    jsonPayload += "\"requestType\":" + std::to_string(bwInfodeltas.requestType) + ",";
+    jsonPayload += "\"fixedAllocation\":\"" + bwInfodeltas.fixedAllocation + "\",";
+    jsonPayload += "\"allocationDirection\":\"" + bwInfodeltas.allocationDirection + "\"";
     jsonPayload += "}";
 
     std::string request = "PATCH " + apiPath1 + " HTTP/1.1\r\n";
